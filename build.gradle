@@ -1,0 +1,29 @@
+plugins {
+    id 'java-gradle-plugin'
+    id 'groovy'
+    id 'maven-publish'
+}
+
+group = 'ru.arsysop.liho'
+version = currentVersion
+
+repositories {
+    jcenter()
+    mavenLocal()
+}
+
+dependencies {
+    implementation "ru.arsysop.liho:liho:0.1"
+}
+
+gradlePlugin {
+    plugins {
+        liho {
+            id = 'ru.arsysop.liho.liho-gradle-plugin'
+            displayName = 'LiHo: License header checker'
+            description = 'Check if you source files contain proper license headers'
+            implementationClass = 'ru.arsysop.liho.gradle.LihoPlugin'
+        }
+    }
+}
+

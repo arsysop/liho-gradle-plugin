@@ -23,13 +23,8 @@ package ru.arsysop.liho.gradle
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.provider.Property
-import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.InputDirectory
-import org.gradle.api.tasks.OutputFile
-import org.gradle.api.tasks.TaskAction
+import org.gradle.api.tasks.*
 import ru.arsysop.liho.bulk.AnalyzedTree
-import ru.arsysop.liho.report.Report
-import ru.arsysop.liho.report.StreamingReport
 
 class LihoTask extends DefaultTask {
 
@@ -43,17 +38,30 @@ class LihoTask extends DefaultTask {
     final RegularFileProperty report = project.objects.fileProperty()
 
     LihoTask() {
-        setGroup("validation")
-        setDescription("Check if all the source files start with proper license headers")
+        setGroup("verification")
+        setDescription("Check if all the source files start with proper license headers.")
     }
 
     @TaskAction
     void troubleLiho() {
-        File file = report.get().asFile
-        logger.info("Liho is about to analyse ${root.get().getAbsolutePath()} and store analysis results in ${file.getAbsolutePath()}")
-        file.withOutputStream { output ->
-            Report report = new StreamingReport(new PrintStream(output))
-            new AnalyzedTree(report).accept(root.get().toPath())
+        report.get().asFile.with { file ->
+            file.withOutputStream { stream ->
+                analyseAndReport(file, stream)
+            }
+        }
+        setDidWork(true)
+    }
+
+    // due to gradle runtime peculiarities, despite private access is compilable here, private method is not accessible at runtime
+    void analyseAndReport(File file, OutputStream output) {
+        VindictiveReport results = new VindictiveReport(file, output)
+        new AnalyzedTree(results).accept(root.get().toPath())
+        if (results.failed()) {
+            if (strict.get()) {
+                throw new TaskExecutionException(this, new LihoCheckFailureException(results))
+            } else {
+                System.err.println("WARNING: ${results.summary()}")
+            }
         }
     }
 

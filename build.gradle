@@ -58,7 +58,13 @@ java {
     withSourcesJar()
 }
 
-tasks.jar {
+javadocJar {
+    dependsOn += "groovydoc"
+    from(groovydoc.destinationDir)
+}
+
+tasks.withType(Jar) {
+    from('README.md', 'LICENSE')
     extendManifest(manifest)
 }
 
@@ -68,4 +74,40 @@ void extendManifest(Manifest mf) {
             "Artifact": project.name,
             "Version" : project.version
     ])
+}
+
+publishing {
+    repositories {
+        maven {
+            url = uri("$buildDir/local-repo")
+        }
+    }
+    publications {
+        release(MavenPublication) {
+            from components.java
+            pom {
+                name = project.name
+                description = project.description
+                url = "https://github.com/ArSysOp/liho-gradle-plugin"
+                licenses {
+                    license {
+                        name = "Apache 2.0"
+                        url = "http://www.apache.org/licenses/LICENSE-2.0"
+                    }
+                }
+                developers {
+                    developer {
+                        id = "eparovyhsnaya"
+                        name = "Elena Parovyshnaia"
+                        email = "elena.parovyshnaya@gmail.com"
+                    }
+                }
+                scm {
+                    connection = "scm:git:git://github.com/arsysop/liho-gradle-plugin.git"
+                    developerConnection = "scm:git:ssh://github.com/arsysop/liho-gradle-plugin.git"
+                    url = "https://github.com/arsysop/liho-gradle-plugin"
+                }
+            }
+        }
+    }
 }

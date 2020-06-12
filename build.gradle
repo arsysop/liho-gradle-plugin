@@ -30,9 +30,11 @@ version = currentVersion
 
 repositories {
     jcenter()
-    mavenLocal()
     maven {
         url = "https://dl.bintray.com/arsysop/lang"
+    }
+    maven {
+        url = "https://dl.bintray.com/arsysop/liho"
     }
 }
 
@@ -49,4 +51,21 @@ gradlePlugin {
             implementationClass = 'ru.arsysop.liho.gradle.LihoPlugin'
         }
     }
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+tasks.jar {
+    extendManifest(manifest)
+}
+
+void extendManifest(Manifest mf) {
+    mf.attributes([
+            "Group"   : project.group,
+            "Artifact": project.name,
+            "Version" : project.version
+    ])
 }

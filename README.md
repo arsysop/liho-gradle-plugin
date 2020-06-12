@@ -1,5 +1,8 @@
 # liho-gradle-plugin
 
+[![Build](https://github.com/arsysop/liho-gradle-plugin/workflows/Java%20CI/badge.svg)](https://github.com/arsysop/liho-gradle-plugin/actions?query=workflow%3A%22Java+CI%22)
+[![Hits-of-Code](https://hitsofcode.com/github/arsysop/liho-gradle-plugin)](https://hitsofcode.com/view/github/arsysop/liho-gradle-plugin)
+
 [![](https://img.shields.io/badge/License-Apache--2.0-brightgreen.svg)](https://github.com/arsysop/liho-gradle-plugin/blob/master/LICENSE)
 
 [Standalone Plug-in](https://docs.gradle.org/current/userguide/custom_plugins.html#sec:custom_plugins_standalone_project) 
@@ -11,7 +14,7 @@ if a project source base is sufficiently equipped with license headers.
 
 #### to build
 ```
-./gradlew pPMPTML
+./gradlew publish
 ```
 
 #### to apply

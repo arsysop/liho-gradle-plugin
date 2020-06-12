@@ -30,9 +30,11 @@ version = currentVersion
 
 repositories {
     jcenter()
-    mavenLocal()
     maven {
         url = "https://dl.bintray.com/arsysop/lang"
+    }
+    maven {
+        url = "https://dl.bintray.com/arsysop/liho"
     }
 }
 
@@ -47,6 +49,65 @@ gradlePlugin {
             displayName = 'LiHo: License header checker'
             description = 'Check if you source files contain proper license headers'
             implementationClass = 'ru.arsysop.liho.gradle.LihoPlugin'
+        }
+    }
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+javadocJar {
+    dependsOn += "groovydoc"
+    from(groovydoc.destinationDir)
+}
+
+tasks.withType(Jar) {
+    from('README.md', 'LICENSE')
+    extendManifest(manifest)
+}
+
+void extendManifest(Manifest mf) {
+    mf.attributes([
+            "Group"   : project.group,
+            "Artifact": project.name,
+            "Version" : project.version
+    ])
+}
+
+publishing {
+    repositories {
+        maven {
+            url = uri("$buildDir/local-repo")
+        }
+    }
+    publications {
+        release(MavenPublication) {
+            from components.java
+            pom {
+                name = project.name
+                description = project.description
+                url = "https://github.com/ArSysOp/liho-gradle-plugin"
+                licenses {
+                    license {
+                        name = "Apache 2.0"
+                        url = "http://www.apache.org/licenses/LICENSE-2.0"
+                    }
+                }
+                developers {
+                    developer {
+                        id = "eparovyhsnaya"
+                        name = "Elena Parovyshnaia"
+                        email = "elena.parovyshnaya@gmail.com"
+                    }
+                }
+                scm {
+                    connection = "scm:git:git://github.com/arsysop/liho-gradle-plugin.git"
+                    developerConnection = "scm:git:ssh://github.com/arsysop/liho-gradle-plugin.git"
+                    url = "https://github.com/arsysop/liho-gradle-plugin"
+                }
+            }
         }
     }
 }

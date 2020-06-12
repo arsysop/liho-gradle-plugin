@@ -1,4 +1,4 @@
-/*******************************************************************************
+/* *****************************************************************************
  * Copyright (c) 2020 ArSysOp
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,6 +28,9 @@ import ru.arsysop.liho.report.StreamingReport
 
 import java.util.concurrent.atomic.AtomicInteger
 
+/**
+ * {@linkplain Report} implementation that, besides streaming, counts issues and summarizes all the findings.
+ */
 @PackageScope
 class VindictiveReport implements Report {
 

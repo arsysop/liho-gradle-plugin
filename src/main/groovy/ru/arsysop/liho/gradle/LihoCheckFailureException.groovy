@@ -1,4 +1,4 @@
-/*******************************************************************************
+/* *****************************************************************************
  * Copyright (c) 2020 ArSysOp
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,6 +20,11 @@
  *******************************************************************************/
 package ru.arsysop.liho.gradle
 
+/**
+ * Dedicated exception is failed (for <i>strict</i> configurations) if any license header issues are found during the build.
+ * @see Configuration
+ * @since 0.1
+ */
 class LihoCheckFailureException extends Exception {
 
     LihoCheckFailureException(VindictiveReport report) {

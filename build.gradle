@@ -18,7 +18,6 @@
  * Contributors:
  *     ArSysOp - initial API and implementation
  *******************************************************************************/
-
 plugins {
     id 'java-gradle-plugin'
     id 'groovy'
@@ -30,12 +29,6 @@ version = currentVersion
 
 repositories {
     jcenter()
-    maven {
-        url = "https://dl.bintray.com/arsysop/lang"
-    }
-    maven {
-        url = "https://dl.bintray.com/arsysop/liho"
-    }
 }
 
 dependencies {

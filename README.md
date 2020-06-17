@@ -12,11 +12,12 @@ if a project source base is sufficiently equipped with license headers.
 
 **Currently is under construction.**
 
-#### to build
+#### to publish
 ```
 ./gradlew publish
 ```
-
+It builds and stores publish-ready artifacts into _buildDir/local-repo_.
+ 
 #### to apply
 1. _apply_ the plugin in _plugins_ block of your `build.gradle`
     ```groovy
@@ -29,8 +30,7 @@ if a project source base is sufficiently equipped with license headers.
    ```groovy
     pluginManagement {
         repositories {
-            ...
-            maven(url = "https://dl.bintray.com/arsysop/lang")
+            jcenter()
         }
         resolutionStrategy {
             eachPlugin {
